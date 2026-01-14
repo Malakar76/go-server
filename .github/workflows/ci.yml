@@ -6,7 +6,22 @@ on:
     branches: [ "main" ]
 
 jobs:
+  commitlint:
+    name: Commit Lint (PR commits)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Lint commits
+        uses: ahmadnassri/action-commit-lint@v2
+        with:
+          config: conventional
+
   test:
+    needs: commitlint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
