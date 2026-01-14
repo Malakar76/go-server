@@ -3,18 +3,23 @@ package config
 import "os"
 
 type Config struct {
-	HTTPAddr string
-	DBPath   string
+	HTTPAddr  string
+	DBPath    string
+	SentryDSN string
 }
 
 func FromEnv() Config {
-	addr := os.Getenv("HTTP_ADDR")
-	if addr == "" {
-		addr = ":8080"
+	cfg := Config{
+		HTTPAddr:  getEnv("HTTP_ADDR", ":8080"),
+		DBPath:    getEnv("DB_PATH", "data/app.db"),
+		SentryDSN: getEnv("SENTRY_DSN", ""),
 	}
-	db := os.Getenv("DB_PATH")
-	if db == "" {
-		db = "data/app.db"
+	return cfg
+}
+
+func getEnv(key, def string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
 	}
-	return Config{HTTPAddr: addr, DBPath: db}
+	return def
 }

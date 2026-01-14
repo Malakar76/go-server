@@ -6,14 +6,29 @@ import (
 	"go-server/internal/platform/db"
 	repo "go-server/internal/repository/sqlite"
 	"go-server/internal/service"
+	"log"
+
+	"github.com/getsentry/sentry-go"
 )
 
 type App struct {
 	server *http.Server
 }
 
+func setupSentry(cfg config.Config) {
+	err := sentry.Init(sentry.ClientOptions{
+		Dsn:              cfg.SentryDSN,
+		TracesSampleRate: 0.05,
+		SendDefaultPII:   true,
+	})
+	if err != nil {
+		log.Printf("sentry init failed: %v", err)
+	}
+}
+
 func New() (*App, error) {
 	cfg := config.FromEnv()
+	setupSentry(cfg)
 
 	sqliteDB, err := db.OpenSQLite(cfg.DBPath)
 	if err != nil {

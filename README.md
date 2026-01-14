@@ -41,3 +41,6 @@ Defines the address the HTTP server listens on.
 Path to the SQLite database file.
 
 **Default:** `data/app.db`
+
+### `SENTRY_DSN`
+Key for Sentry error logs.

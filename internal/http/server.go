@@ -5,6 +5,7 @@ import (
 	"go-server/internal/http/handlers"
 	"go-server/internal/service"
 
+	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +16,10 @@ type Server struct {
 
 func NewServer(cfg config.Config, userSvc *service.UserService) *Server {
 	r := gin.New()
+	r.SetTrustedProxies(nil)
+	r.Use(sentrygin.New(sentrygin.Options{
+		Repanic: true,
+	}))
 	r.Use(gin.Logger(), gin.Recovery())
 
 	h := handlers.New(userSvc)
