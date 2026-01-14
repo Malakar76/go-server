@@ -27,6 +27,14 @@ func (h *Handlers) CreateUser(c *gin.Context) {
 	c.JSON(http.StatusCreated, u)
 }
 
+// GetUser godoc
+// @Summary      Get a user by ID
+// @Tags         users
+// @Produce      json
+// @Param        id   path      string  true  "User ID"
+// @Success      200  {object}  domain.User
+// @Failure      404  {object}  map[string]string
+// @Router       /v1/users/{id} [get]
 func (h *Handlers) GetUser(c *gin.Context) {
 	u, err := h.userSvc.GetByID(c.Request.Context(), c.Param("id"))
 	if err != nil {

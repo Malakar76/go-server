@@ -1,3 +1,9 @@
+// @title           Go Server API
+// @version         1.0
+// @description     Simple Gin API with SQLite
+// @host            localhost:8080
+// @BasePath        /
+// @schemes         http
 package main
 
 import (
