@@ -34,7 +34,7 @@ Sets Gin runtime mode.
 ### `HTTP_ADDR`
 Defines the address the HTTP server listens on.
 
-**Format: :** `host:port`
+**Format: :** `host:port`  
 **Default:** `:8080`
 
 ### `DB_PATH`
