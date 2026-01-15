@@ -2,10 +2,19 @@ package handlers
 
 import "go-server/internal/service"
 
-type Handlers struct {
-	userSvc *service.UserService
+type Deps struct {
+	UserSvc   *service.UserService
+	ObjectSvc *service.ObjectService
 }
 
-func New(userSvc *service.UserService) *Handlers {
-	return &Handlers{userSvc: userSvc}
+type Handlers struct {
+	userSvc   *service.UserService
+	objectSvc *service.ObjectService
+}
+
+func New(d Deps) *Handlers {
+	return &Handlers{
+		userSvc:   d.UserSvc,
+		objectSvc: d.ObjectSvc,
+	}
 }

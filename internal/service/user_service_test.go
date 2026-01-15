@@ -37,7 +37,7 @@ func TestUserService_GetByID_NotFound(t *testing.T) {
 	})
 
 	_, err := svc.GetByID(context.Background(), "123")
-	if !errors.Is(err, ErrUserNotFound) {
+	if !errors.Is(err, repository.ErrUserNotFound) {
 		t.Fatalf("expected ErrUserNotFound, got: %v", err)
 	}
 }

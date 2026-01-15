@@ -10,8 +10,6 @@ import (
 	"go-server/internal/repository"
 )
 
-var ErrUserNotFound = errors.New("user not found")
-
 type UserService struct {
 	repo repository.UserRepository
 }
@@ -31,7 +29,7 @@ func (s *UserService) GetByID(ctx context.Context, id string) (*domain.User, err
 	u, err := s.repo.GetByID(ctx, id)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, ErrUserNotFound
+			return nil, repository.ErrUserNotFound
 		}
 		return nil, err
 	}

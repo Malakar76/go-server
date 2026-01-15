@@ -3,7 +3,6 @@ package http
 import (
 	"go-server/internal/config"
 	"go-server/internal/http/handlers"
-	"go-server/internal/service"
 
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/gin"
@@ -14,15 +13,13 @@ type Server struct {
 	addr   string
 }
 
-func NewServer(cfg config.Config, userSvc *service.UserService) *Server {
+func NewServer(cfg config.Config, h *handlers.Handlers) *Server {
 	r := gin.New()
 	r.SetTrustedProxies(nil)
 	r.Use(sentrygin.New(sentrygin.Options{
 		Repanic: true,
 	}))
 	r.Use(gin.Logger(), gin.Recovery())
-
-	h := handlers.New(userSvc)
 	registerRoutes(r, h)
 
 	return &Server{engine: r, addr: cfg.HTTPAddr}

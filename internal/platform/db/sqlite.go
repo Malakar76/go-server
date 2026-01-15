@@ -40,14 +40,3 @@ func OpenSQLite(path string) (*sql.DB, error) {
 	}
 	return db, nil
 }
-
-func InitSchema(db *sql.DB) error {
-	_, err := db.Exec(`
-CREATE TABLE IF NOT EXISTS users (
-  id TEXT PRIMARY KEY,
-  name TEXT NOT NULL,
-  created_at TEXT NOT NULL
-);
-`)
-	return err
-}

@@ -22,7 +22,7 @@ func TestUserRepository_CRUD(t *testing.T) {
 	if _, err := sqldb.Exec(`PRAGMA journal_mode=WAL;`); err != nil {
 		t.Fatal(err)
 	}
-	if err := db.InitSchema(sqldb); err != nil {
+	if err := db.RunMigrations(sqldb, "../../../migrations"); err != nil {
 		t.Fatal(err)
 	}
 

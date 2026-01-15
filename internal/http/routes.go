@@ -17,5 +17,7 @@ func registerRoutes(r *gin.Engine, h *handlers.Handlers) {
 	{
 		v1.POST("/users", h.CreateUser)
 		v1.GET("/users/:id", h.GetUser)
+		v1.GET("/objects/:id", h.GetObject)
+		v1.POST("/objects", h.CreateObject)
 	}
 }

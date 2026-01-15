@@ -31,7 +31,10 @@ func TestGetUser_404(t *testing.T) {
 
 	repo := fakeRepoNotFound{}
 	userSvc := service.NewUserService(repo)
-	h := New(userSvc)
+	h := New(Deps{
+		UserSvc:   userSvc,
+		ObjectSvc: nil,
+	})
 
 	r := gin.New()
 	r.GET("/v1/users/:id", h.GetUser)

@@ -3,6 +3,7 @@ package app
 import (
 	"go-server/internal/config"
 	"go-server/internal/http"
+	"go-server/internal/http/handlers"
 	"go-server/internal/platform/db"
 	repo "go-server/internal/repository/sqlite"
 	"go-server/internal/service"
@@ -34,14 +35,21 @@ func New() (*App, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := db.InitSchema(sqliteDB); err != nil {
+	if err := db.RunMigrations(sqliteDB, "migrations"); err != nil {
 		return nil, err
 	}
 
 	userRepo := repo.NewUserRepository(sqliteDB)
 	userSvc := service.NewUserService(userRepo)
+	objectRepo := repo.NewObjectRepository(sqliteDB)
+	objectSvc := service.NewObjectService(objectRepo)
 
-	srv := http.NewServer(cfg, userSvc)
+	h := handlers.New(handlers.Deps{
+		UserSvc:   userSvc,
+		ObjectSvc: objectSvc,
+	})
+
+	srv := http.NewServer(cfg, h)
 
 	return &App{server: srv}, nil
 }

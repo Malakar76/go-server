@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"go-server/internal/service"
+	"go-server/internal/repository"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,7 +38,7 @@ func (h *Handlers) CreateUser(c *gin.Context) {
 func (h *Handlers) GetUser(c *gin.Context) {
 	u, err := h.userSvc.GetByID(c.Request.Context(), c.Param("id"))
 	if err != nil {
-		if err == service.ErrUserNotFound {
+		if err == repository.ErrUserNotFound {
 			c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
 			return
 		}
